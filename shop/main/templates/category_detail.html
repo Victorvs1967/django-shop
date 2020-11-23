@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<title>{% block title %}Categories{% endblock %}</title>
+
+{% block sidemenu %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mt-4">
+    <li class="breadcrumb-item"><a href="{% url 'base' %}">Main</a></li>
+    <li class="breadcrumb-item active">{{ category.name }}</li>
+  </ol>
+</nav>
+
+<div class="row">
+    {% for product in category_products %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+          <a href="{{ product.get_absolute_url }}"><img class="card-img-top img-fluid w-auto" style="height: 200px;" src="{{ product.image.url }}" alt=""></a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="#">{{ product.name }}</a>
+            </h4>
+            <h5>${{ product.price }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <a href="{% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}"><button class="btn btn-primary">Add to Cart</button></a>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    <!-- /.row -->
+    </div>
+    <!-- /.col-lg-9 -->    
+{% endblock %}

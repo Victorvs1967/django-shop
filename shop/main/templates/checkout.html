@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<title>{% block title %}Order Page{% endblock %}</title>
+
+{% block sidemenu %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center my-4">Order</h2>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Count</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.products.all %}
+      <tr>
+        <td scope="row"><strong>1</strong></th>
+        <td>{{item.content_object.title}}</td>
+        <td class="w-25"><img src="{{item.content_object.image.url}}" alt="" class="img-fluid"></td>
+        <td>${{item.content_object.price}}</td>
+        <td>{{ item.qty }}</td>
+        <td>${{ item.total_price }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="2"></td>
+        <td>Total:</td>
+        <td>{{ cart.total_products }}</td>
+        <td><strong>${{ cart.final_price }}</strong></td>
+        <td colspan="2"></td>
+      </tr>
+    </tbody>
+</table>
+<hr>
+<h2 class="text-center my-4">Order Form</h2>
+<form action="{% url 'make_order' %}" method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn btn-success btn-block" value="Save Order">
+</form>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% load specifications %}
+
+{% block sidemenu %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mt-4">
+      <li class="breadcrumb-item"><a href="{% url 'base' %}">Main</a></li>
+      <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-6">
+        <img class="img-fluid" src="{{ product.image.url }}" alt="">
+    </div>
+    <div class="col-md-6 mt-5">
+        <h3>{{ product.title }}</h3>
+        <hr>
+        <h4>Price: ${{ product.price }}</h4>
+        <p>Description: {{ product.description }}</p>
+        <hr>
+        <a href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}"><button class="btn btn-danger px-4">Add to Cart</button></a>
+    </div>
+    <div class="col-md-12 mt-2">
+        <p>Specification:</p>
+        {{ product|product_spec }}
+    </div>
+</div>
+{% endblock %}
